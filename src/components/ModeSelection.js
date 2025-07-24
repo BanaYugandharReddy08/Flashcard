@@ -22,15 +22,17 @@ const ModeSelection = ({ onModeSelect }) => {
             </div>
             <p className="card-subtitle">Dive deep into any subject at your own pace</p>
           </div>
-          <div className="card-body">
-            <div className="bullet">Enter the topic you want to study and choose up to 30 flash cards</div>
-            <div className="bullet">Navigate effortlessly with Previous and Next buttons</div>
-            <div className="bullet">Review, repeat, and reinforce your knowledge as much as you need</div>
+          <div style={{ padding: '24px' }}>
+            <div className="card-body">
+              <div className="bullet">Enter the topic you want to study and choose up to 30 flash cards</div>
+              <div className="bullet">Navigate effortlessly with Previous and Next buttons</div>
+              <div className="bullet">Review, repeat, and reinforce your knowledge as much as you need</div>
+            </div>
+            <button onClick={() => onModeSelect('learn')} className="btn-primary">
+              <span>Start Learning</span>
+              <ArrowRight className="icon" />
+            </button>
           </div>
-          <button onClick={() => onModeSelect('learn')} className="btn-primary">
-            <span>Start Learning</span>
-            <ArrowRight className="icon" />
-          </button>
         </div>
 
         <div className="mode-card quiz">
@@ -41,15 +43,18 @@ const ModeSelection = ({ onModeSelect }) => {
             </div>
             <p className="card-subtitle">Ready to challenge yourself? Test your knowledge!</p>
           </div>
-          <div className="card-body">
-            <div className="bullet">Multiple question types: True/False, Single/Multi-Select, Yes/No</div>
-            <div className="bullet">Choose difficulty level: Simple, Medium, or Hard</div>
-            <div className="bullet">Instant scoring with detailed review and explanations</div>
+          <div style={{ padding: '24px' }}>
+            <div className="card-body">
+              <div className="bullet">Multiple question types: True/False, Single/Multi-Select, Yes/No</div>
+              <div className="bullet">Choose difficulty level: Simple, Medium, or Hard</div>
+              <div className="bullet">Instant scoring with detailed review and explanations</div>
+            </div>
+            <button onClick={() => onModeSelect('quiz')} className="btn-purple">
+              <span>Start Quiz</span>
+              <ArrowRight className="icon" />
+            </button>
           </div>
-          <button onClick={() => onModeSelect('quiz')} className="btn-purple">
-            <span>Start Quiz</span>
-            <ArrowRight className="icon" />
-          </button>
+
         </div>
       </div>
 

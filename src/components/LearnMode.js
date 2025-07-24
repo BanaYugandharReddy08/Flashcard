@@ -47,28 +47,36 @@ const LearnMode = () => {
     return (
       <div className="learn-setup">
         <div className="card">
-          <div className="card-title">Learn Mode</div>
-          <p className="card-subtitle">
-            Select the topic you want to study and choose the number of flash cards
-          </p>
+          <div style={{ marginBottom: '32px' }}>
+            <div className="card-title">Learn Mode</div>
+            <p className="card-subtitle">
+              Select the topic you want to study and choose the number of flash cards
+            </p>
+          </div>
 
-          <div className="form">
-            <div className="form-field">
-              <label>Topic</label>
-              <div className="input-icon">
+          <div className="form" style={{ display: 'flex', flexDirection: 'column',height: '252px' }}>
+            <div className="form-field" style={{ height:'78px !important', marginBottom:'0px' }}>
+              <div style={{ height:'20px' ,marginBottom:"8px"  }}>
+                <label style={{fontWeight:'500', fontSize:'0.875rem'}}>Topic</label>  
+              </div>
+              <div className="input-icon" style={{height:'50px'}}>
                 <Search className="icon" />
                 <input
                   type="text"
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="Enter the topic you want to study..."
+                  style={{ width: '550px', height: '24px' }}
                 />
               </div>
             </div>
 
-            <div className="form-field">
-              <label>Number of Flash Cards (1-30)</label>
-              <input
+            <div className="form-field" style={{ height:'78px !important', marginTop:'24px', marginBottom:'0px' }}>
+              <div marginBottom="8px" style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{fontWeight:'500', fontSize:'0.875rem'}}>Number of Flash Cards (1-30)</label>  
+              </div>
+              <div className="input-icon" style={{ height:'50px' }}>
+                <input
                 type="number"
                 min="1"
                 max="30"
@@ -76,21 +84,24 @@ const LearnMode = () => {
                 onChange={(e) =>
                   setCardCount(Math.max(1, Math.min(30, parseInt(e.target.value) || 1)))
                 }
+                style={{ width: '570px', height: '24px', paddingLeft: '1.25rem' }}
               />
+              </div>
             </div>
 
             <button
               onClick={handleGenerate}
               disabled={!topic.trim() || isLoading}
               className="btn-primary"
+              style={{marginTop:'24px'}}
             >
               {isLoading ? (
                 <div className="spinner" />
               ) : (
-                <>
+                <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                   <Search className="icon" />
                   <span>Generate Flash Cards</span>
-                </>
+                </div>
               )}
             </button>
           </div>
