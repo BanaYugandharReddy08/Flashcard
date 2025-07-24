@@ -15,11 +15,13 @@ const ModeSelection = ({ onModeSelect }) => {
 
       <div className="mode-cards">
         <div className="mode-card learn">
-          <div className="card-header">
-            <BookOpen className="icon" />
-            <h3>Learn Mode</h3>
+          <div className="card-top learn">
+            <div className="card-header">
+              <BookOpen className="icon" />
+              <h3>Learn Mode</h3>
+            </div>
+            <p className="card-subtitle">Dive deep into any subject at your own pace</p>
           </div>
-          <p className="card-text">Dive deep into any subject at your own pace</p>
           <div className="card-body">
             <div className="bullet">Enter the topic you want to study and choose up to 30 flash cards</div>
             <div className="bullet">Navigate effortlessly with Previous and Next buttons</div>
@@ -32,11 +34,13 @@ const ModeSelection = ({ onModeSelect }) => {
         </div>
 
         <div className="mode-card quiz">
-          <div className="card-header">
-            <Brain className="icon" />
-            <h3>Quiz Mode</h3>
+          <div className="card-top quiz">
+            <div className="card-header">
+              <Brain className="icon" />
+              <h3>Quiz Mode</h3>
+            </div>
+            <p className="card-subtitle">Ready to challenge yourself? Test your knowledge!</p>
           </div>
-          <p className="card-text">Ready to challenge yourself? Test your knowledge!</p>
           <div className="card-body">
             <div className="bullet">Multiple question types: True/False, Single/Multi-Select, Yes/No</div>
             <div className="bullet">Choose difficulty level: Simple, Medium, or Hard</div>
