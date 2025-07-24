@@ -49,6 +49,7 @@ body {
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-bottom: 48px !important;
 }
 .mode-card {
   background: #fff;
@@ -167,7 +168,7 @@ body {
   margin: 2rem 0;
 }
 .flash-card-body { padding:2rem; height:100%; }
-.flash-card-header { display:flex; justify-content:space-between; margin-bottom:1.5rem; }
+.flash-card-header { display:flex; justify-content:space-between; }
 .flash-card-info { display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; color:#4b5563; }
 .indicator { width:0.75rem; height:0.75rem; background:#3b82f6; border-radius:50%; }
 .flash-card-toggle { background:transparent; color:#4b5563; }
@@ -195,10 +196,40 @@ body {
   height: 424px !important;
 }
 
+.learn-mode {
+  width: 896px !important;
+  height: 656px !important;
+  margin: 0 106.5px
+}
+
 .card {
   width: 608px !important;
   height: 360px !important;
   padding: 32px !important;
+}
+
+.header {
+  width: 848px !important;
+  height: 56px !important;
+  padding: 24px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 56px;
+  justify-content: center;
+}
+
+.header-info h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
 label {
@@ -304,7 +335,14 @@ label {
 }
 .multi-note { font-size: 0.875rem; color: #6b7280; margin-top: 1rem; }
 .setup-header { text-align: center; margin-bottom: 1.5rem; }
-.features { margin-top: 3rem; }
+.features {
+  text-align:center;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:0.5rem;
+  padding:2rem;
+  box-shadow:0 1px 2px rgba(0,0,0,0.05);
+}
 
 /* Header styles */
 .app-header {

@@ -3,6 +3,7 @@ import ModeSelection from './components/ModeSelection';
 import LearnMode from './components/LearnMode';
 import QuizMode from './components/QuizMode';
 import Header from './components/Header';
+import {ToastContainer} from 'react-toastify';
 
 function App() {
   const [currentMode, setCurrentMode] = useState('selection');
@@ -30,6 +31,15 @@ function App() {
     <div className="app-container">
       <Header currentMode={currentMode} handleBackToHome={handleBackToHome} />
       <main className="main-content">{renderContent()}</main>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnHover
+      />
     </div>
   );
 }

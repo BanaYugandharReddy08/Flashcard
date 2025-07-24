@@ -112,10 +112,10 @@ const LearnMode = () => {
 
   return (
     <div className="learn-mode">
-      <div className="card header">
+      <div className="card header" style={{width:'848px',height:'56px',marginBottom:'24px'}}>
         <div className="header-info">
           <h2>Learn Mode: {topic}</h2>
-          <p>Card {currentCardIndex + 1} of {flashCards.length}</p>
+          <p style={{margin:0}}>Card {currentCardIndex + 1} of {flashCards.length}</p>
         </div>
         <button onClick={handleReset} className="btn-text">
           <RotateCcw className="icon" />
