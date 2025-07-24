@@ -1,84 +1,45 @@
 export const generateQuizQuestions = async (config) => {
-  await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 2000));
+  const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
-  const questions = [];
-  const availableTypes = config.questionTypes;
-
-  for (let i = 0; i < config.cardCount; i++) {
-    const randomType = availableTypes[Math.floor(Math.random() * availableTypes.length)];
-    let question;
-
-    switch (randomType) {
-      case 'True/False':
-        question = {
-          id: `q-${i + 1}`,
-          type: 'True/False',
-          question: `Statement about ${config.topic}: This is a ${config.difficulty.toLowerCase()} level true/false question. (Question ${i + 1})`,
-          correctAnswer: Math.random() > 0.5 ? 'True' : 'False',
-          explanation: `This statement is ${Math.random() > 0.5 ? 'true' : 'false'} because of specific reasons related to ${config.topic}. The ${config.difficulty.toLowerCase()} difficulty level means this concept requires ${config.difficulty === 'Hard' ? 'advanced' : config.difficulty === 'Medium' ? 'moderate' : 'basic'} understanding.`,
-        };
-        break;
-
-      case 'Yes/No':
-        question = {
-          id: `q-${i + 1}`,
-          type: 'Yes/No',
-          question: `Question about ${config.topic}: Is this a valid approach or concept? (${config.difficulty} level - Question ${i + 1})`,
-          correctAnswer: Math.random() > 0.5 ? 'Yes' : 'No',
-          explanation: `The answer is ${Math.random() > 0.5 ? 'Yes' : 'No'} because this approach aligns with the fundamental principles of ${config.topic}.`,
-        };
-        break;
-
-      case 'Single Select':
-        const options = [
-          `Option A related to ${config.topic}`,
-          `Option B covering ${config.topic} concepts`,
-          `Option C explaining ${config.topic} principles`,
-          `Option D about ${config.topic} applications`,
-        ];
-        const correctIndex = Math.floor(Math.random() * options.length);
-        question = {
-          id: `q-${i + 1}`,
-          type: 'Single Select',
-          question: `Which of the following best describes ${config.topic}? (${config.difficulty} level - Question ${i + 1})`,
-          options: options,
-          correctAnswer: options[correctIndex],
-          explanation: `${options[correctIndex]} is the correct answer because it accurately represents the core concepts of ${config.topic} at the ${config.difficulty.toLowerCase()} level.`,
-        };
-        break;
-
-      case 'Multi-Select':
-        const multiOptions = [
-          `First aspect of ${config.topic}`,
-          `Second characteristic of ${config.topic}`,
-          `Third principle of ${config.topic}`,
-          `Fourth element of ${config.topic}`,
-          `Fifth component of ${config.topic}`,
-        ];
-        const correctCount = Math.floor(Math.random() * 3) + 2;
-        const correctAnswers = multiOptions.slice(0, correctCount);
-        question = {
-          id: `q-${i + 1}`,
-          type: 'Multi-Select',
-          question: `Select all that apply to ${config.topic}: (${config.difficulty} level - Question ${i + 1})`,
-          options: multiOptions,
-          correctAnswer: correctAnswers,
-          explanation: `The correct answers are: ${correctAnswers.join(', ')}. These represent the key aspects of ${config.topic} that are essential for ${config.difficulty.toLowerCase()}-level understanding.`,
-        };
-        break;
-
-      default:
-        question = {
-          id: `q-${i + 1}`,
-          type: 'True/False',
-          question: `Default question about ${config.topic} (Question ${i + 1})`,
-          correctAnswer: 'True',
-          explanation: `This is a default explanation for ${config.topic}.`,
-        };
-    }
-
-    questions.push(question);
+  if (!apiKey) {
+    throw new Error('Missing OpenAI API key');
   }
 
-  return questions;
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a helpful assistant that generates quiz questions in JSON format.'
+        },
+        {
+          role: 'user',
+          content: `Create ${config.cardCount} quiz questions about "${config.topic}" with difficulty ${config.difficulty}. Question types: ${config.questionTypes.join(', ')}. Respond with an array of objects containing type, question, correctAnswer, options (if any) and explanation.`
+        },
+      ],
+      temperature: 0.7,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch quiz questions');
+  }
+
+  const data = await response.json();
+
+  let questions = [];
+  try {
+    questions = JSON.parse(data.choices[0].message.content.trim());
+  } catch (err) {
+    console.error('Error parsing quiz JSON:', err);
+  }
+
+  return questions.map((q, index) => ({ ...q, id: `q-${index + 1}` })).slice(0, config.cardCount);
 };
