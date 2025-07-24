@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import ModeSelection from './components/ModeSelection';
 import LearnMode from './components/LearnMode';
 import QuizMode from './components/QuizMode';
+import Header from './components/Header';
 
 function App() {
   const [currentMode, setCurrentMode] = useState('selection');
+
+  const handleBackToHome = () => {
+    setCurrentMode('selection');
+  };
 
   const handleModeSelect = (mode) => {
     setCurrentMode(mode);
@@ -23,6 +28,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <Header currentMode={currentMode} handleBackToHome={handleBackToHome} />
       <main className="main-content">{renderContent()}</main>
     </div>
   );
