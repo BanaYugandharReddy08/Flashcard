@@ -1,3 +1,17 @@
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f9fafb;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .app-container {
   min-height: 100vh;
   background: linear-gradient(to bottom right, #eff6ff, #ffffff, #f5f3ff);
@@ -16,6 +30,7 @@
 .mode-cards {
   display: grid;
   gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 .mode-card {
   background: #fff;
@@ -26,6 +41,11 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.mode-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.1);
 }
 .mode-card .card-header {
   display: flex;
@@ -34,6 +54,9 @@
   font-weight: bold;
   font-size: 1.25rem;
 }
+.card-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.25rem; }
+.card-subtitle { font-size: 0.875rem; color: #6b7280; margin-bottom: 1rem; }
+.card-text { margin: 0; }
 .mode-card .card-body .bullet {
   margin-bottom: 0.5rem;
 }
@@ -50,6 +73,7 @@
   border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
 }
 .btn-primary { background:#2563eb; color:#fff; }
 .btn-purple { background:#7e22ce; color:#fff; }
@@ -57,12 +81,20 @@
 .btn-nav { background:#f3f4f6; }
 .btn-text { background:transparent; color:#374151; }
 .btn-nav:disabled { opacity:0.5; cursor:not-allowed; }
+.btn-primary:hover { background:#1d4ed8; }
+.btn-purple:hover { background:#6b21a8; }
+.btn-green:hover { background:#15803d; }
+.btn-nav:hover:not(:disabled) { background:#e5e7eb; }
+.btn-text:hover { color:#111827; }
 
 .flash-card {
   background:#fff;
   border-radius:1rem;
   box-shadow:0 4px 6px rgba(0,0,0,0.1);
   min-height:400px;
+}
+.flashcard-wrapper {
+  margin: 2rem 0;
 }
 .flash-card-body { padding:2rem; height:100%; }
 .flash-card-header { display:flex; justify-content:space-between; margin-bottom:1.5rem; }
@@ -111,6 +143,7 @@
 .summary-info { display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; font-size:0.875rem; color:#4b5563; margin-bottom:1rem; }
 .review-item { border:1px solid #e5e7eb; border-radius:0.5rem; padding:1rem; }
 .review-header { display:flex; gap:1rem; }
+.review-body { flex: 1; }
 .review-title { display:flex; gap:0.5rem; font-size:0.875rem; color:#6b7280; }
 .review-title .type { background:#f3f4f6; padding:0 0.5rem; border-radius:0.25rem; }
 .answers { margin:0.5rem 0; }
@@ -126,3 +159,61 @@
 .feature-icon.purple { background:#ede9fe; color:#7e22ce; }
 .feature-icon.orange { background:#ffedd5; color:#ea580c; }
 .cta { text-align:center; margin-top:3rem; color:#4b5563; font-size:1.125rem; }
+
+/* Quiz question styles */
+.quiz-question {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+}
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.type-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  background: #7e22ce;
+  border-radius: 50%;
+}
+.type-label { font-size: 0.875rem; color: #6b7280; }
+.answer-options { display: flex; flex-direction: column; gap: 0.75rem; }
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.checkbox-option.multiple .label {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+.question-types { display: flex; flex-direction: column; gap: 0.5rem; }
+.difficulty-options { display: flex; gap: 0.5rem; }
+.option {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+.option.active {
+  background: #7e22ce;
+  color: #fff;
+  border-color: #7e22ce;
+}
+.multi-note { font-size: 0.875rem; color: #6b7280; margin-top: 1rem; }
+.setup-header { text-align: center; margin-bottom: 1.5rem; }
+.features { margin-top: 3rem; }
