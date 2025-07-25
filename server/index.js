@@ -101,6 +101,14 @@ app.post('/api/generate-flashcards', async (req, res) => {
 
 app.post('/api/generate-quiz', async (req, res) => {
   const { topic, cardCount, difficulty, questionTypes } = req.body;
+
+  // Validate user input early
+  if (!topic || topic.trim().length < 3) {
+    return res.status(400).json({
+      error: 'Please enter a valid topic with at least 3 characters.',
+    });
+  }
+
   try {
     const prompt =
       `You are a helpful assistant that generates quiz questions in JSON format. ` +
@@ -108,15 +116,64 @@ app.post('/api/generate-quiz', async (req, res) => {
       `Question types: ${questionTypes.join(', ')}. ` +
       `Respond with an array of objects containing type, question, correctAnswer, options (if any) and explanation.`;
 
-    const text = await callGoogle([{ role: 'user', parts: [{ text: prompt }] }]);
-    const questions = JSON.parse(text.trim());
-    res.json(questions);
+    const result = await ai.models.generateContent({
+      model: "models/gemini-2.5-flash", // Use correct model name
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      config: {
+        thinkingConfig: {
+          thinkingBudget: 0,
+        },
+      },
+    });
+
+    const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    // Clean the response if it starts with markdown code block
+    const cleaned = rawText
+      .replace(/^```(?:json)?\n/, '')
+      .replace(/\n```$/, '')
+      .trim();
+
+    // If response doesn't look like an array, reject it
+    if (!cleaned.startsWith("[")) {
+      return res.status(400).json({
+        error: "Invalid or unknown topic. Please enter a valid subject.",
+        message: rawText, // optional: Gemini’s message
+      });
+    }
+
+    const flashcards = JSON.parse(cleaned);
+
+    res.json(
+      flashcards.map((card, index) => ({
+        ...card,
+        id: `card-${index + 1}`,
+      }))
+    );
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to generate quiz questions' });
+    console.error("Failed to generate flashcards:", err.message || err);
+    res.status(500).json({ error: 'Failed to generate flash cards' });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+// app.post('/api/generate-quiz', async (req, res) => {
+//   const { topic, cardCount, difficulty, questionTypes } = req.body;
+//   try {
+//     const prompt =
+//       `You are a helpful assistant that generates quiz questions in JSON format. ` +
+//       `Create ${cardCount} quiz questions about "${topic}" with difficulty ${difficulty}. ` +
+//       `Question types: ${questionTypes.join(', ')}. ` +
+//       `Respond with an array of objects containing type, question, correctAnswer, options (if any) and explanation.`;
+
+//     const text = await callGoogle([{ role: 'user', parts: [{ text: prompt }] }]);
+//     const questions = JSON.parse(text.trim());
+//     res.json(questions);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Failed to generate quiz questions' });
+//   }
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Server listening on port ${PORT}`);
+// });

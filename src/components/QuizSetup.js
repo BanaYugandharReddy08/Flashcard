@@ -5,17 +5,9 @@ const QuizSetup = ({ onStartQuiz }) => {
   const [topic, setTopic] = useState('');
   const [cardCount, setCardCount] = useState(10);
   const [difficulty, setDifficulty] = useState('Medium');
-  const [questionTypes, setQuestionTypes] = useState(['True/False']);
+  const [questionTypes, setQuestionTypes] = useState(['True/False', 'Single Select', 'Yes/No']);
   const [allowMultipleAnswers, setAllowMultipleAnswers] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const availableQuestionTypes = ['True/False', 'Single Select', 'Yes/No'];
-
-  const handleQuestionTypeToggle = (type) => {
-    setQuestionTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
-  };
 
   const handleSubmit = async () => {
     if (!topic.trim() || questionTypes.length === 0) return;
@@ -42,44 +34,55 @@ const QuizSetup = ({ onStartQuiz }) => {
     <div className="quiz-setup">
       <div className="card">
         <div className="setup-header">
-          <Settings className="icon" />
-          <h2>Quiz Mode Setup</h2>
-          <p>Ready to challenge yourself? Configure your quiz settings below</p>
+          <h2 style={{margin:0, fontWeight:700,fontSize:'1.875rem',marginBottom:'16px'}}>Quiz Mode Setup</h2>
+          <p style={{margin:0}}>Ready to challenge yourself? Configure your quiz settings below</p>
         </div>
 
-        <div className="form">
+        <div className="form" style={{ display: 'flex', flexDirection: 'column',height: '252px' }}>
           <div className="form-field">
-            <label>Topic</label>
-            <div className="input-icon">
+            <div style={{ height:'20px' ,marginBottom:"8px"  }}>
+                <label style={{fontWeight:'500', fontSize:'0.875rem'}}>Topic</label>  
+            </div>
+            <div className="input-icon" style={{height:'50px'}}>
               <Search className="icon" />
               <input
                 type="text"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Enter the topic for your quiz..."
+                style={{ width: '550px', height: '24px' }}
               />
+              </div>
+          </div>
+
+          <div className="form-field" style={{ height:'78px !important', marginTop:'24px' }}>
+              <div marginBottom="8px" style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{fontWeight:'500', fontSize:'0.875rem'}}>Number of Flash Cards (1-30)</label>  
+              </div>
+              <div className="input-icon" style={{ height:'50px' }}>
+                <input
+                type="number"
+                min="1"
+                max="30"
+                value={cardCount}
+                onChange={(e) =>
+                  setCardCount(Math.max(1, Math.min(30, parseInt(e.target.value) || 1)))
+                }
+                style={{ width: '570px', height: '24px', paddingLeft: '1.25rem' }}
+              />
+              </div>
             </div>
-          </div>
 
-          <div className="form-field">
-            <label>Number of Questions (1-30)</label>
-            <input
-              type="number"
-              min="1"
-              max="30"
-              value={cardCount}
-              onChange={(e) => setCardCount(Math.max(1, Math.min(30, parseInt(e.target.value) || 1)))}
-            />
-          </div>
-
-          <div className="form-field">
-            <label>Difficulty Level</label>
+          <div className="form-field" style={{ height:'78px !important', marginTop:'24px' }}>
+            <div marginBottom="8px" style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{fontWeight:'500', fontSize:'0.875rem'}}>Difficulty Level</label>  
+              </div>
             <div className="difficulty-options">
               {['Simple', 'Medium', 'Hard'].map((level) => (
                 <button
                   key={level}
                   onClick={() => setDifficulty(level)}
-                  className={difficulty === level ? 'option active' : 'option'}
+                  className={`difficulty-btn ${difficulty === level ? 'active' : ''}`}
                 >
                   {level}
                 </button>
@@ -87,20 +90,8 @@ const QuizSetup = ({ onStartQuiz }) => {
             </div>
           </div>
 
-          <div className="form-field">
-            <label>Question Types</label>
+          <div className="form-field multiple-checkbox">
             <div className="question-types">
-              {availableQuestionTypes.map((type) => (
-                <label key={type} className="checkbox-option">
-                  <input
-                    type="checkbox"
-                    checked={questionTypes.includes(type)}
-                    onChange={() => handleQuestionTypeToggle(type)}
-                  />
-                  <span>{type}</span>
-                </label>
-              ))}
-
               <div className="checkbox-option multiple">
                 <input
                   type="checkbox"
@@ -114,16 +105,16 @@ const QuizSetup = ({ onStartQuiz }) => {
 
           <button
             onClick={handleSubmit}
-            disabled={!topic.trim() || questionTypes.length === 0 || isLoading}
-            className="btn-purple"
+            disabled={!topic.trim() || questionTypes.length ===0 || isLoading}
+            className="btn-primary"
+            style={{marginTop:'24px'}}
           >
             {isLoading ? (
               <div className="spinner" />
             ) : (
-              <>
-                <Settings className="icon" />
+              <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <span>Start Quiz</span>
-              </>
+              </div>
             )}
           </button>
         </div>
