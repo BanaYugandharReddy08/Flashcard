@@ -56,11 +56,15 @@ const QuizMode = () => {
         const allAnswered = questions.every((_, index) => answers[index] !== undefined);
         return (
           <div className="quiz-taking">
-            <div className="quiz-header">
-              <div>
+            <div className="quiz-header" style={{width:'848px',height:'56px',marginBottom:'24px'}}>
+              <div className="header-info">
+                <h2>Quiz: {quizConfig?.topic}</h2>
+                <p style={{margin:0}}>Question {currentQuestionIndex + 1} of {questions.length}</p>
+              </div>
+              {/* <div>
                 <h2>Quiz: {quizConfig?.topic}</h2>
                 <p>Question {currentQuestionIndex + 1} of {questions.length}</p>
-              </div>
+              </div> */}
               <div className="difficulty">Difficulty: {quizConfig?.difficulty}</div>
             </div>
 

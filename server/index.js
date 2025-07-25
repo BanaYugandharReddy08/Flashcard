@@ -7,7 +7,6 @@ import { GoogleGenAI } from '@google/genai';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 const GOOGLE_API_KEY = process.env.GOOGLE_AI_API_KEY || 'AIzaSyDvpK_7jXGJY6oWfCfWRHhS99qun-JK7C8';
 
 if (!GOOGLE_API_KEY) {
@@ -17,30 +16,9 @@ if (!GOOGLE_API_KEY) {
 app.use(cors());
 app.use(express.json());
 
-const GOOGLE_URL =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
-  const ai = new GoogleGenAI({apiKey: GOOGLE_API_KEY});
+const ai = new GoogleGenAI({apiKey: GOOGLE_API_KEY});
 
-async function callGoogle(messages) {
-
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: "Explain how AI works in a few words",
-    config: {
-      thinkingConfig: {
-        thinkingBudget: 0, // Disables thinking
-      },
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to reach Google Generative AI');
-  }
-
-  const data = await response.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-}
 
 app.post('/api/generate-flashcards', async (req, res) => {
   const { topic, count } = req.body;
@@ -154,6 +132,12 @@ app.post('/api/generate-quiz', async (req, res) => {
     console.error("Failed to generate flashcards:", err.message || err);
     res.status(500).json({ error: 'Failed to generate flash cards' });
   }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
 
 // app.post('/api/generate-quiz', async (req, res) => {

@@ -196,11 +196,12 @@ body {
   height: 424px !important;
 }
 
-.learn-mode {
+.learn-mode, .quiz-taking {
   width: 896px !important;
   height: 656px !important;
   margin: 0 106.5px
 }
+
 
 .card {
   width: 608px !important;
@@ -258,10 +259,30 @@ label {
 @keyframes spin { to { transform:rotate(360deg); } }
 .pager { display:flex; justify-content:space-between; align-items:center; }
 .pager-dots { display:flex; gap:0.5rem; }
-.dot { width:0.75rem; height:0.75rem; border-radius:50%; background:#d1d5db; }
+/* .dot { width:0.75rem; height:0.75rem; border-radius:50%; background:#d1d5db; } */
 .dot.active { background:#3b82f6; }
 .dot.answered { background:#bbf7d0; }
-.question-dots .dot { width:2rem; height:2rem; display:flex; align-items:center; justify-content:center; font-size:0.875rem; }
+.question-dots {
+  display: flex;
+  flex-wrap: wrap;          /* Optional: allow wrapping to next line if too many */
+  gap: 0.5rem;              /* Add spacing between buttons */
+  justify-content: center;  /* Center horizontally */
+  margin-top: 1rem;         /* Optional spacing from above */
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin: 0.25rem; /* Add spacing if not using gap */
+}
+
+.question-dots .dot { width:1.5rem; height:1.5rem; display:flex; align-items:center; justify-content:center; font-size:0.5rem; }
 .question-dots .answered { background:#bbf7d0; border:1px solid #86efac; color:#166534; }
 .quiz-nav { display:flex; justify-content:space-between; align-items:center; }
 .difficulty { font-size:0.875rem; color:#6b7280; }
@@ -321,6 +342,7 @@ label {
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   cursor: pointer;
+  width: 95% !important;
 }
 .checkbox-option {
   display: flex;

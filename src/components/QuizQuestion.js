@@ -85,8 +85,8 @@ const QuizQuestion = ({ question, answer, onAnswerChange }) => {
   return (
     <div className="quiz-question">
       <div className="question-header">
-        <div className="type-indicator" />
-        <span className="type-label">{question.type}</span>
+        {/* <div className="type-indicator" /> */}
+        {/* <span className="type-label">{question.type}</span> */}
         <h3 className="question-text">{question.question}</h3>
       </div>
       <div className="answer-options">{renderQuestionContent()}</div>

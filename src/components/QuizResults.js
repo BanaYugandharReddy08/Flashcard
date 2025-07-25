@@ -108,9 +108,32 @@ const QuizResults = ({ questions, answers, config, onRetakeQuiz }) => {
                         <div>
                           <p className="label">Correct Answer:</p>
                           <div className="answer correct">
-                            {Array.isArray(question.correctAnswer)
-                              ? question.correctAnswer.join(', ')
-                              : question.correctAnswer}
+                            {(() => {
+                                  const { correctAnswer, type } = question;
+
+                                  if (typeof correctAnswer === 'boolean') {
+                                    if (type === 'Yes/No') return correctAnswer ? 'Yes' : 'No';
+                                    return correctAnswer ? 'True' : 'False';
+                                  }
+
+                                  if (typeof correctAnswer === 'string') {
+                                    const normalized = correctAnswer.toLowerCase();
+                                    if (type === 'Yes/No') {
+                                      if (normalized === 'yes') return 'Yes';
+                                      if (normalized === 'no') return 'No';
+                                    } else {
+                                      if (normalized === 'true') return 'True';
+                                      if (normalized === 'false') return 'False';
+                                    }
+                                    return correctAnswer;
+                                  }
+
+                                  if (Array.isArray(correctAnswer)) {
+                                    return correctAnswer.join(', ');
+                                  }
+
+                                  return 'No answer';
+                              })()}
                           </div>
                         </div>
                       )}
