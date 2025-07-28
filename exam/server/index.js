@@ -15,17 +15,18 @@ app.post('/sign', upload.single('pdf'), async (req, res) => {
       return res.status(400).json({ error: 'Invalid file type' });
     }
 
-    // Load PDF and add a mock signature text
+    // Load PDF and add a mock signature text on every page
     const pdfDoc = await PDFDocument.load(req.file.buffer);
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
-    const { width, height } = firstPage.getSize();
-    firstPage.drawText('Signed by Mock Server', {
-      x: 50,
-      y: height - 50,
-      size: 18,
-      color: rgb(1, 0, 0),
-    });
+
+    for (const page of pdfDoc.getPages()) {
+      const { width, height } = page.getSize();
+      page.drawText('Signed by Mock Server', {
+        x: 50,
+        y: height - 50,
+        size: 18,
+        color: rgb(1, 0, 0),
+      });
+    }
 
     const signedPdfBytes = await pdfDoc.save();
 
